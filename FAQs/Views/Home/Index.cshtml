@@ -1,0 +1,84 @@
+﻿@model List<FAQ>
+@{
+    ViewBag.Title = "Home";
+}
+
+@*Navbar List Group*@
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 offset-sm-3">
+
+        <nav class="navbar navbar-expand-sm navbar-fixed navbar-toggleable-sm d-sm-inline-flex justify-content-between navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">All FAQs</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    @foreach (Topic t in ViewBag.Topics)
+                    {
+                        <a class="navbar-brand" asp-action="Index" class="nav-item nav-link"
+                           asp-route-topic="@t.TopicId">@t.TName</a>
+                    }
+                </div>
+
+            </div>
+        </nav>
+    </div>
+</div>
+</div>
+
+@*Category Sidebar Filter*@
+
+<div class="row">
+    <div class="col-sm-3">
+        <ul class="list-group">
+
+    @*Categories FOREACH LOOP*@
+
+            @foreach (Category category in ViewBag.Categories)
+            {
+                <li class="list-group-item">
+                    <a asp-action="Index"
+                       asp-route-topic="@ViewBag.ActiveTopic"
+                       asp-route-category="@category.CategoryId">@category.CName
+                       </a>
+                </li>
+            }
+            </ul>
+        </div>
+
+        @*FAQs+As FOREACH LOOP *@
+
+<div class="col-sm-9 offset-sm-0">
+    <ul class="list-group mb-3">
+
+            @foreach(var faq in Model)
+            {
+                <li class="list-group-item">
+                            
+                    @if (faq.CategoryId == "hist")
+                           {
+                                <b class="mr-2">@faq.QuestionName</b> @faq.Answer
+                                   <div class="row">
+                                       <div class="col-sm-6 float-start">Topic: @faq.Topic.TName </div>
+                                       <div class="col-sm-6 float-end">Category: @faq.Category.CName</div>
+                                   </div>
+                            }
+
+                            @if (faq.CategoryId == "gen")
+                            {
+                                <b class="mr-2">@faq.QuestionName</b> @faq.Answer
+                                   <div class="row">
+                                       <div class="col-sm-6 float-start">Topic: @faq.Topic.TName </div>
+                                       <div class="col-sm-6 float-end">Category: @faq.Category.CName</div>
+                                   </div>
+                            }
+                        </li>
+            }
+            </ul>
+</div>
+</div>
